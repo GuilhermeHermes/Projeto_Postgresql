@@ -1,0 +1,378 @@
+-- -- -- -- -- -- -- -- CREATE TABLE Modalidade (
+-- -- -- -- -- -- -- --   idModalidade SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   nomeModalidade VARCHAR(30)
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Pessoa (
+-- -- -- -- -- -- -- --   idPessoa SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   nomePessoa VARCHAR(50),
+-- -- -- -- -- -- -- --   dataNascPessoa DATE,
+-- -- -- -- -- -- -- --   cpfPessoa VARCHAR(11),
+-- -- -- -- -- -- -- --   emailPessoa VARCHAR(50),
+-- -- -- -- -- -- -- --   logradouroPessoa VARCHAR(50)
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Categoria (
+-- -- -- -- -- -- -- --   idCategoria SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   nomeCategoria VARCHAR(50)
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Transacoes (
+-- -- -- -- -- -- -- --   idTransacoes SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Pessoa_idPessoa INTEGER,
+-- -- -- -- -- -- -- --   dataTransacao DATE,
+-- -- -- -- -- -- -- --   valorTransacao DECIMAL(10,2),
+-- -- -- -- -- -- -- --   tipoTransacao INTEGER,
+-- -- -- -- -- -- -- --   descricaoTransacao VARCHAR(90),
+-- -- -- -- -- -- -- --   FOREIGN KEY (Pessoa_idPessoa)
+-- -- -- -- -- -- -- --     REFERENCES Pessoa(idPessoa)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Telefone (
+-- -- -- -- -- -- -- --   idTelefone SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Pessoa_idPessoa INTEGER,
+-- -- -- -- -- -- -- --   ddd VARCHAR(2),
+-- -- -- -- -- -- -- --   numeroTelefone VARCHAR(9),
+-- -- -- -- -- -- -- --   tipoTelefone CHAR(1),
+-- -- -- -- -- -- -- --   FOREIGN KEY (Pessoa_idPessoa)
+-- -- -- -- -- -- -- --     REFERENCES Pessoa(idPessoa)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Funcionario (
+-- -- -- -- -- -- -- --   idFuncionario SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Pessoa_idPessoa INTEGER,
+-- -- -- -- -- -- -- --   cargoFuncionario VARCHAR(40),
+-- -- -- -- -- -- -- --   salarioFuncionario DECIMAL(10,2),
+-- -- -- -- -- -- -- --   FOREIGN KEY (Pessoa_idPessoa)
+-- -- -- -- -- -- -- --     REFERENCES Pessoa(idPessoa)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Bairro (
+-- -- -- -- -- -- -- --   idBairro SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Pessoa_idPessoa INTEGER,
+-- -- -- -- -- -- -- --   nomeBairro VARCHAR(50),
+-- -- -- -- -- -- -- --   FOREIGN KEY (Pessoa_idPessoa)
+-- -- -- -- -- -- -- --     REFERENCES Pessoa(idPessoa)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Treinador (
+-- -- -- -- -- -- -- --   idTreinador SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Categoria_idCategoria INTEGER,
+-- -- -- -- -- -- -- --   Modalidade_idModalidade INTEGER,
+-- -- -- -- -- -- -- --   Funcionario_idFuncionario INTEGER,
+-- -- -- -- -- -- -- --   FOREIGN KEY (Funcionario_idFuncionario)
+-- -- -- -- -- -- -- --     REFERENCES Funcionario(idFuncionario)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION,
+-- -- -- -- -- -- -- --   FOREIGN KEY (Modalidade_idModalidade)
+-- -- -- -- -- -- -- --     REFERENCES Modalidade(idModalidade)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION,
+-- -- -- -- -- -- -- --   FOREIGN KEY (Categoria_idCategoria)
+-- -- -- -- -- -- -- --     REFERENCES Categoria(idCategoria)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Atleta (
+-- -- -- -- -- -- -- --   idAtleta SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Categoria_idCategoria INTEGER,
+-- -- -- -- -- -- -- --   Modalidade_idModalidade INTEGER,
+-- -- -- -- -- -- -- --   Funcionario_idFuncionario INTEGER,
+-- -- -- -- -- -- -- --   FOREIGN KEY (Funcionario_idFuncionario)
+-- -- -- -- -- -- -- --     REFERENCES Funcionario(idFuncionario)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION,
+-- -- -- -- -- -- -- --   FOREIGN KEY (Modalidade_idModalidade)
+-- -- -- -- -- -- -- --     REFERENCES Modalidade(idModalidade)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION,
+-- -- -- -- -- -- -- --   FOREIGN KEY (Categoria_idCategoria)
+-- -- -- -- -- -- -- --     REFERENCES Categoria(idCategoria)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE SalarioFuncionario (
+-- -- -- -- -- -- -- --   idSalarioFuncionario SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Transacoes_idTransacoes INTEGER,
+-- -- -- -- -- -- -- --   dataTransacaoSalario DATE,
+-- -- -- -- -- -- -- --   FOREIGN KEY (Transacoes_idTransacoes)
+-- -- -- -- -- -- -- --     REFERENCES Transacoes(idTransacoes)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- CREATE TABLE Municipio (
+-- -- -- -- -- -- -- --   idMunicipio SERIAL PRIMARY KEY,
+-- -- -- -- -- -- -- --   Bairro_idBairro INTEGER,
+-- -- -- -- -- -- -- --   nomeMunicipio VARCHAR(50),
+-- -- -- -- -- -- -- --   FOREIGN KEY (Bairro_idBairro)
+-- -- -- -- -- -- -- --     REFERENCES Bairro(idBairro)
+-- -- -- -- -- -- -- --       ON DELETE NO ACTION
+-- -- -- -- -- -- -- --       ON UPDATE NO ACTION
+-- -- -- -- -- -- -- -- );
+
+-- -- -- -- -- -- -- -- Inserir dados na tabela Modalidade
+-- -- -- -- -- -- -- INSERT INTO Modalidade (nomeModalidade) VALUES
+-- -- -- -- -- -- --   ('Futebol'),
+-- -- -- -- -- -- --   ('Vôlei'),
+-- -- -- -- -- -- --   ('Natação'),
+-- -- -- -- -- -- --   ('Basquete'),
+-- -- -- -- -- -- --   ('Handebol'),
+-- -- -- -- -- -- --   ('Judô');
+
+-- -- -- -- -- -- -- -- Inserir dados na tabela Categoria
+-- -- -- -- -- -- -- INSERT INTO Categoria (nomeCategoria) VALUES
+-- -- -- -- -- -- --   ('Sub13'),
+-- -- -- -- -- -- --   ('Sub15'),
+-- -- -- -- -- -- --   ('Sub18'),
+-- -- -- -- -- -- --   ('Sub23'),
+-- -- -- -- -- -- --   ('Adulto');
+
+-- -- -- -- -- -- -- Inserir dados na tabela Transacoes
+-- -- -- -- -- -- INSERT INTO Transacoes (Pessoa_idPessoa, dataTransacao, valorTransacao, tipoTransacao, descricaoTransacao) VALUES
+-- -- -- -- -- --   (1, '2023-01-01', 100.00, 'pix', 'Compra de Equipamento'),
+-- -- -- -- -- --   (2, '2023-02-15', 50.00, 'pix', 'Taxa de Inscrição'),
+-- -- -- -- -- --   (3, '2023-03-20', 200.00, 'pix', 'Patrocínio'),
+-- -- -- -- -- --   (4, '2023-04-05', 150.00, 'boleto', 'Compra de Uniforme'),
+-- -- -- -- -- --   (5, '2023-05-12', 30.00, 'pix', 'Taxa de Inscrição'),
+-- -- -- -- -- --   (6, '2023-06-20', 180.00, 'ted/doc', 'Patrocínio');
+
+-- -- -- -- -- -- -- Inserir dados na tabela Telefone
+-- -- -- -- -- -- INSERT INTO Telefone (Pessoa_idPessoa, ddd, numeroTelefone, tipoTelefone) VALUES
+-- -- -- -- -- --   (1, '84', '987654321', 'C'),
+-- -- -- -- -- --   (2, '84', '123456789', 'F'),
+-- -- -- -- -- --   (3, '84', '555555555', 'C'),
+-- -- -- -- -- --   (4, '84', '777777777', 'C'),
+-- -- -- -- -- --   (5, '84', '999999999', 'F'),
+-- -- -- -- -- --   (6, '84', '888888888', 'C');
+
+-- -- -- -- -- -- -- Inserir dados na tabela Funcionario
+-- -- -- -- -- -- INSERT INTO Funcionario (Pessoa_idPessoa, cargoFuncionario, salarioFuncionario) VALUES
+-- -- -- -- -- --   (1, 'Treinador', 3000.00),
+-- -- -- -- -- --   (2, 'Diretor esportivo', 2500.00),
+-- -- -- -- -- --   (3, 'Atleta', 2800.00),
+-- -- -- -- -- --   (4, 'Treinador', 3200.00),
+-- -- -- -- -- --   (5, 'Atleta', 2500.00),
+-- -- -- -- -- --   (6, 'Fisioterapeuta', 2800.00);
+
+-- -- -- -- -- -- -- Inserir dados na tabela Bairro
+-- -- -- -- -- -- INSERT INTO Bairro (Pessoa_idPessoa, nomeBairro) VALUES
+-- -- -- -- -- --   (1, 'Lagoa Nova'),
+-- -- -- -- -- --   (2, 'Tirol'),
+-- -- -- -- -- --   (3, 'Alecrim'),
+-- -- -- -- -- --   (4, 'Cidade Alta'),
+-- -- -- -- -- --   (5, 'Ponta Negra'),
+-- -- -- -- -- --   (6, 'Petrópolis');
+
+-- -- -- -- -- -- Inserir dados na tabela Treinador
+-- -- -- -- -- INSERT INTO Treinador (Funcionario_idFuncionario, Categoria_idCategoria, Modalidade_idModalidade) VALUES
+-- -- -- -- --   (13, 15, 13),
+-- -- -- -- --   (16, 14, 18);
+
+-- -- -- -- -- -- Inserir dados na tabela Atleta apenas para funcionários com cargo "Atleta"
+-- -- -- -- -- INSERT INTO Atleta (Funcionario_idFuncionario, Categoria_idCategoria, Modalidade_idModalidade) VALUES
+-- -- -- -- --   (15, 15, 13),
+-- -- -- -- --   (17, 15, 13);
+
+-- -- -- -- -- -- Inserir dados na tabela SalarioFuncionario
+-- -- -- -- -- INSERT INTO SalarioFuncionario (Transacoes_idTransacoes, dataTransacaoSalario) VALUES
+-- -- -- -- --   (13, '2023-01-01'),
+-- -- -- -- --   (14, '2023-02-15'),
+-- -- -- -- --   (15, '2023-03-20'),
+-- -- -- -- --   (16, '2023-04-05'),
+-- -- -- -- --   (17, '2023-05-12'),
+-- -- -- -- --   (18, '2023-06-20');
+
+-- -- -- -- -- -- Inserir dados na tabela Municipio
+-- -- -- -- -- INSERT INTO Municipio (Bairro_idBairro, nomeMunicipio) VALUES
+-- -- -- -- --   (13, 'Natal'),
+-- -- -- -- --   (14, 'Natal'),
+-- -- -- -- --   (15, 'Natal'),
+-- -- -- -- --   (16, 'Natal'),
+-- -- -- -- --   (17, 'Natal'),
+-- -- -- -- --   (18, 'Natal');
+
+-- -- -- -- INSERT INTO Pessoa (nomePessoa, dataNascPessoa, cpfPessoa, emailPessoa, logradouroPessoa)
+-- -- -- -- VALUES
+-- -- -- --   ('Lucas Oliveira', '2006-02-10', '11111111111', 'lucas@email.com', 'Rua I, 123, Lagoa Nova, Natal, RN'),
+-- -- -- --   ('Sophia Silva', '2008-07-15', '22222222222', 'sophia@email.com', 'Avenida J, 456, Tirol, Natal, RN'),
+-- -- -- --   ('Matheus Santos', '2003-11-20', '33333333333', 'matheus@email.com', 'Travessa K, 789, Alecrim, Natal, RN'),
+-- -- -- --   ('Lara Souza', '2005-05-25', '44444444444', 'lara@email.com', 'Rua L, 234, Cidade Alta, Natal, RN'),
+-- -- -- --   ('Enzo Mendes', '2009-09-30', '55555555555', 'enzo@email.com', 'Avenida M, 567, Petrópolis, Natal, RN'),
+-- -- -- --   ('Isabella Oliveira', '2004-03-05', '66666666666', 'isabella@email.com', 'Travessa N, 890, Barro Vermelho, Natal, RN'),
+-- -- -- --   ('Bruno Santos', '2007-08-10', '77777777777', 'bruno@email.com', 'Rua O, 111, Neópolis, Natal, RN'),
+-- -- -- --   ('Mariana Silva', '2002-12-15', '88888888888', 'mariana@email.com', 'Avenida P, 222, Capim Macio, Natal, RN'),
+-- -- -- --   ('Gabriel Oliveira', '2006-04-20', '99999999999', 'gabriel@email.com', 'Travessa Q, 333, Lagoa Seca, Natal, RN'),
+-- -- -- --   ('Amanda Souza', '2003-10-25', '10101010101', 'amanda@email.com', 'Rua R, 444, Nova Descoberta, Natal, RN'),
+-- -- -- --   ('Rafael Santos', '2005-06-30', '20202020202', 'rafael@email.com', 'Avenida S, 555, Candelária, Natal, RN'),
+-- -- -- --   ('Luiza Mendes', '2008-02-05', '30303030303', 'luiza@email.com', 'Travessa T, 666, Pitimbu, Natal, RN'),
+-- -- -- --   ('Lucas Oliveira', '2004-07-10', '40404040404', 'lucas2@email.com', 'Rua U, 777, Lagoa Azul, Natal, RN'),
+-- -- -- --   ('Sophia Silva', '2007-11-15', '50505050505', 'sophia2@email.com', 'Avenida V, 888, Pajuçara, Natal, RN'),
+-- -- -- --   ('Matheus Santos', '2002-05-20', '60606060606', 'matheus2@email.com', 'Travessa W, 999, Redinha, Natal, RN');
+
+
+-- -- -- INSERT INTO Telefone (Pessoa_idPessoa, ddd, numeroTelefone, tipoTelefone)
+-- -- -- VALUES
+-- -- --   (7, '84', '111111111', 'C'),
+-- -- --   (8, '84', '222222222', 'R'),
+-- -- --   (9, '84', '333333333', 'C'),
+-- -- --   (10, '84', '444444444', 'R'),
+-- -- --   (11, '84', '555555555', 'C'),
+-- -- --   (12, '84', '666666666', 'R'),
+-- -- --   (13, '84', '777777777', 'C'),
+-- -- --   (14, '84', '888888888', 'R'),
+-- -- --   (15, '84', '999999999', 'C'),
+-- -- --   (16, '84', '101010101', 'R'),
+-- -- --   (17, '84', '111111111', 'C'),
+-- -- --   (18, '84', '121212121', 'R'),
+-- -- --   (19, '84', '131313131', 'C'),
+-- -- --   (20, '84', '141414141', 'R'),
+-- -- --   (21, '84', '151515151', 'C');
+
+
+-- -- -- INSERT INTO Funcionario (Pessoa_idPessoa, cargoFuncionario, salarioFuncionario)
+-- -- -- VALUES
+-- -- --   (7, 'Atleta', 1500.00),
+-- -- --   (8, 'Atleta', 1600.00),
+-- -- --   (9, 'Atleta', 1700.00),
+-- -- --   (10, 'Atleta', 1800.00),
+-- -- --   (11, 'Atleta', 1900.00),
+-- -- --   (12, 'Atleta', 2000.00),
+-- -- --   (13, 'Atleta', 2100.00),
+-- -- --   (14, 'Atleta', 2200.00),
+-- -- --   (15, 'Atleta', 2300.00),
+-- -- --   (16, 'Atleta', 2400.00),
+-- -- --   (17, 'Atleta', 2500.00),
+-- -- --   (18, 'Atleta', 2600.00),
+-- -- --   (19, 'Atleta', 2700.00),
+-- -- --   (20, 'Atleta', 2800.00),
+-- -- --   (21, 'Atleta', 2900.00);
+
+-- -- -- INSERT INTO Bairro (Pessoa_idPessoa, nomeBairro)
+-- -- -- VALUES
+-- -- --   (7, 'Cidade Alta'),
+-- -- --   (8, 'Petrópolis'),
+-- -- --   (9, 'Barro Vermelho'),
+-- -- --   (10, 'Lagoa Nova'),
+-- -- --   (11, 'Tirol'),
+-- -- --   (12, 'Alecrim'),
+-- -- --   (13, 'Neópolis'),
+-- -- --   (14, 'Planalto'),
+-- -- --   (15, 'Ponta Negra'),
+-- -- --   (16, 'Ribeira'),
+-- -- --   (17, 'Quintas'),
+-- -- --   (18, 'Capim Macio'),
+-- -- --   (19, 'Candelária'),
+-- -- --   (20, 'Nova Descoberta'),
+-- -- --   (21, 'Pajuçara');
+
+-- -- -- -- Inserir Municipio
+-- -- -- INSERT INTO Municipio (Bairro_idBairro, nomeMunicipio)
+-- -- -- VALUES
+-- -- --   (16, 'Natal'),
+-- -- --   (16, 'Natal'),
+-- -- --   (17, 'Natal'),
+-- -- --   (15, 'Natal'),
+-- -- --   (14, 'Natal'),
+-- -- --   (13, 'Natal'),
+-- -- --   (13, 'Natal'),
+-- -- --   (14, 'Natal'),
+-- -- --   (15, 'Natal'),
+-- -- --   (16, 'Natal'),
+-- -- --   (17, 'Natal'),
+-- -- --   (14, 'Natal'),
+-- -- --   (14, 'Natal'),
+-- -- --   (14, 'Natal'),
+-- -- --   (13, 'Natal');
+
+-- -- -- Inserir Atletas
+-- -- INSERT INTO Atleta (Categoria_idCategoria, Modalidade_idModalidade, Funcionario_idFuncionario)
+-- -- VALUES
+-- --   (13, 13, 34),
+-- --   (12, 13, 35),
+-- --   (14, 13, 36),
+-- --   (13, 13, 37),
+-- --   (12, 13, 38),
+-- --   (14, 13, 39),
+-- --   (13, 13, 40),
+-- --   (14, 13, 41),
+-- --   (13, 13, 42),
+-- --   (14, 13, 43),
+-- --   (13, 13, 44),
+-- --   (12, 13, 45),
+-- --   (14, 13, 46),
+-- --   (13, 13, 47),
+-- --   (14, 13, 48);
+
+
+-- --INSERT INTO Pessoa (nomePessoa, dataNascPessoa, cpfPessoa, emailPessoa, logradouroPessoa)
+-- --VALUES
+-- --  ('José Silva', '1980-05-10', '12345678901', 'jose@email.com', 'Rua A, 123, Centro, Cidade A');
+
+-- -- Supondo que o idPessoa inserido foi 1 e o salário seja 4000.00
+-- --INSERT INTO Funcionario (Pessoa_idPessoa, cargoFuncionario, salarioFuncionario)
+-- --VALUES
+--  -- (22, 'Coordenador do futebol(treinador)', 8000.00);
+
+-- -- -- Supondo que o idFuncionario inserido foi 1 e o idModalidade para Futebol seja 1
+-- -- INSERT INTO Treinador (Funcionario_idFuncionario, Categoria_idCategoria, Modalidade_idModalidade)
+-- -- VALUES
+-- --   (64, 11, 13), -- Sub13
+-- --   (64, 12, 13), -- Sub15
+-- --   (64, 13, 13), -- Sub18
+-- --   (64, 14, 13), -- Sub23
+-- --   (64, 15, 13); -- Adulto
+
+-- -- CREATE TABLE BackupTransacoes (
+-- --   idBackup SERIAL PRIMARY KEY,
+-- --   idTransacoes INTEGER,
+-- --   Pessoa_idPessoa INTEGER,
+-- --   dataTransacao DATE,
+-- --   valorTransacao DECIMAL(10,2),
+-- --   tipoTransacao INTEGER,
+-- --   descricaoTransacao VARCHAR(90),
+-- --   timestampBackup TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- -- );
+
+-- CREATE TABLE BackupTransacoes (
+--   idBackup SERIAL PRIMARY KEY,  -- Adicionei a coluna idBackup
+--   idTransacoes INTEGER,
+--   Pessoa_idPessoa INTEGER,
+--   dataTransacao DATE,
+--   valorTransacao DECIMAL(10,2),
+--   tipoTransacao VARCHAR(50),
+--   descricaoTransacao VARCHAR(90),
+--   FOREIGN KEY (Pessoa_idPessoa)
+--     REFERENCES Pessoa(idPessoa)
+--       ON DELETE NO ACTION
+--       ON UPDATE NO ACTION,
+--   FOREIGN KEY (idTransacoes)
+--     REFERENCES Transacoes(idTransacoes)
+--       ON DELETE NO ACTION
+--       ON UPDATE NO ACTION
+-- );
+
+-- INSERT INTO Transacoes (Pessoa_idPessoa, dataTransacao, valorTransacao, tipoTransacao, descricaoTransacao)
+-- VALUES
+--   (7, '2023-08-01', 120.00, 'pix', 'Compra de Equipamento'),
+--   (8, '2023-08-15', 80.00, 'pix', 'Taxa de Inscrição'),
+--   (9, '2023-09-10', 150.00, 'pix', 'Patrocínio'),
+--   (10, '2023-09-25', 100.00, 'boleto', 'Compra de Uniforme'),
+--   (11, '2023-10-12', 40.00, 'pix', 'Taxa de Inscrição'),
+--   (12, '2023-11-20', 200.00, 'pix', 'Patrocínio'),
+--   (13, '2023-12-05', 75.00, 'ted/doc', 'Compra de Material Esportivo'),
+--   (14, '2024-01-02', 90.00, 'pix', 'Taxa de Inscrição'),
+--   (15, '2024-01-18', 110.00, 'pix', 'Patrocínio'),
+--   (16, '2024-02-20', 60.00, 'boleto', 'Compra de Equipamento'),
+--   (17, '2024-03-08', 30.00, 'pix', 'Taxa de Inscrição'),
+--   (18, '2024-03-25', 180.00, 'pix', 'Patrocínio');
